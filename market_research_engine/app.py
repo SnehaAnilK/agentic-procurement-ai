@@ -1,6 +1,4 @@
-st.caption(
-    "Enterprise AI workflow for autonomous procurement risk assessment"
-)
+
 import streamlit as st
 import pandas as pd
 
@@ -21,6 +19,10 @@ st.set_page_config(
 # ---------------------------------------------------
 
 st.title("Agentic Procurement AI")
+
+st.caption(
+    "Enterprise AI workflow for autonomous procurement risk assessment"
+)
 
 st.subheader(
     "Autonomous Vendor Evaluation & Risk Intelligence System"
