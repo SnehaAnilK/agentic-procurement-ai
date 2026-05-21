@@ -1,3 +1,6 @@
+st.caption(
+    "Enterprise AI workflow for autonomous procurement risk assessment"
+)
 import streamlit as st
 import pandas as pd
 
@@ -17,7 +20,7 @@ st.set_page_config(
 # HEADER
 # ---------------------------------------------------
 
-st.title("🤖 Agentic Procurement AI")
+st.title("Agentic Procurement AI")
 
 st.subheader(
     "Autonomous Vendor Evaluation & Risk Intelligence System"
@@ -29,7 +32,7 @@ st.divider()
 # INPUT FORM
 # ---------------------------------------------------
 
-st.markdown("## 🏢 Vendor Submission Portal")
+st.markdown("## Vendor Submission Portal")
 
 col1, col2 = st.columns(2)
 
@@ -72,7 +75,7 @@ with col2:
 # ---------------------------------------------------
 
 run_clicked = st.button(
-    "🚀 Evaluate Vendor",
+    "Evaluate Vendor",
     use_container_width=True
 )
 
@@ -90,7 +93,7 @@ if run_clicked:
         "description": vendor_description
     }
 
-    with st.spinner("🤖 Running multi-step procurement agent..."):
+    with st.spinner("Running multi-step procurement agent..."):
 
         result = evaluate_vendor(vendor_data)
 
@@ -98,7 +101,7 @@ if run_clicked:
 
     st.divider()
 
-    st.markdown("# 📄 Procurement Risk Assessment Report")
+    st.markdown("# Procurement Risk Assessment Report")
 
     # ---------------------------------------------------
     # DECISION
@@ -106,11 +109,11 @@ if run_clicked:
 
     if report["decision"] == "APPROVED":
 
-        st.success("✅ AUTO-APPROVED")
+        st.success("AUTO-APPROVED")
 
     else:
 
-        st.error("⚠️ SENT FOR HUMAN REVIEW")
+        st.error("SENT FOR HUMAN REVIEW")
 
         add_to_queue(report)
 
@@ -179,7 +182,7 @@ if run_clicked:
     # LIVE SEARCH RESULTS
     # ---------------------------------------------------
 
-    st.markdown("## 🌐 External Intelligence")
+    st.markdown("## External Intelligence")
 
     for item in result["search_results"]:
 
@@ -197,13 +200,13 @@ if run_clicked:
 
 st.divider()
 
-st.markdown("# 👨 Human Review Queue")
+st.markdown("# Human Review Queue")
 
 queue = get_queue()
 
 if len(queue) == 0:
 
-    st.success("✅ No escalations pending")
+    st.success("No escalations pending")
 
 else:
 
