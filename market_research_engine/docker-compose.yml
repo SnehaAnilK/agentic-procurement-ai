@@ -1,0 +1,53 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# docker-compose.yml — Market Research & Synthesis Engine
+#
+# Start everything:  docker-compose up --build
+# Stop:              docker-compose down
+# View logs:         docker-compose logs -f
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+
+  # ── Main App (Streamlit Web UI + Cron Scheduler) ──────────────────────────
+  app:
+    build: .
+    container_name: market_research_app
+    ports:
+      - "8501:8501"         # Streamlit UI → open http://localhost:8501
+    env_file:
+      - .env                # loads GEMINI_API_KEY, RESEARCH_TOPIC, etc.
+    environment:
+      - DATABASE_URL=sqlite:///output/research_history.db
+    volumes:
+      - ./output:/app/output   # output folder is shared with your host machine
+                               # so PDFs & the SQLite DB persist between restarts
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+# ─── Optional: swap SQLite for PostgreSQL ─────────────────────────────────
+# Uncomment the block below if you want a proper production database.
+# Then change DATABASE_URL in .env to:
+#   DATABASE_URL=postgresql://researcher:secret@db:5432/market_research
+#
+#  db:
+#    image: postgres:15-alpine
+#    container_name: market_research_db
+#    environment:
+#      POSTGRES_DB:       market_research
+#      POSTGRES_USER:     researcher
+#      POSTGRES_PASSWORD: secret
+#    volumes:
+#      - pg_data:/var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+#    restart: unless-stopped
+#
+#volumes:
+#  pg_data:
